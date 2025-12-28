@@ -16,9 +16,7 @@
 
     <script>
         const ESP32_IP = "http://192.168.1.102"; // Replace with your ESP32 IP
-        const userInfo = {
-            2: "Hello! ID 2 matched — Welcome!"
-        };
+        const MATCH_ID = 2; // Only this ID is considered a match
 
         function triggerFingerprint() {
             const statusDiv = document.getElementById("status");
@@ -27,9 +25,8 @@
             fetch(`${ESP32_IP}/trigger`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.match) {
-                        const msg = userInfo[data.finger_id] || `✅ Fingerprint MATCH! ID: ${data.finger_id}`;
-                        statusDiv.innerText = msg;
+                    if (data.match && data.finger_id === MATCH_ID) {
+                        statusDiv.innerText = `✅ Fingerprint MATCH! ID: ${MATCH_ID}`;
                     } else {
                         statusDiv.innerText = "❌ No match found.";
                     }
